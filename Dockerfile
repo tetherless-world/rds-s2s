@@ -9,6 +9,9 @@ RUN apt-get install -y php5 php-apc php5-fpm git
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+RUN git clone https://github.com/tetherless-world/rds-s2s.git
+
+WORKDIR rds-s2s
 RUN git submodule init && git submodule update
 
 ENV WWW_DATA /var/www/html
