@@ -21,7 +21,7 @@ ADD s2s/opensearch/config.php ${WWW_DATA}/rds/config.php
 ADD s2s/opensearch/utils.php ${WWW_DATA}/rds/utils.php
 
 RUN mkdir -p /etc/rds
-ADD opensearch.ini /etc/rds/opensearch.ini
+ADD rds.ini /etc/rds/rds.ini
 
 ADD opensearch.xml ${WWW_DATA}/rds/opensearch.xml
 ADD rds.php ${WWW_DATA}/rds/rds.php
