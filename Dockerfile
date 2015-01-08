@@ -27,19 +27,15 @@ ADD opensearch.xml ${WWW_DATA}/rds/opensearch.xml
 ADD rds.php ${WWW_DATA}/rds/rds.php
 ADD rds.ttl ${WWW_DATA}/rds/rds.ttl
 
-RUN sed -e 's/127.0.0.1:9000/9000/' \
-        -e '/allowed_clients/d' \
-        -e '/catch_workers_output/s/^;//' \
-        -e '/error_log/d' \
-        -i /etc/php-fpm.d/www.conf
-
 # VIVO_ENDPOINT?
 # VIVO_URL_PREFIX
 
-#RUN sed -e 's//' \
-#        -e '' \
-#        -i /etc/rds/opensearch.ini
+RUN sed -e 's/^listen.*/listen = 9000/' \
+        -e '/allowed_clients/d' \
+        -e '/catch_workers_output/s/^;//' \
+        -e '/error_log/d' \
+        -i /etc/php5/fpm/pool.d/www.conf
 
 EXPOSE 9000
 
-ENTRYPOINT /usr/sbin/php-fpm --nodaemonize
+ENTRYPOINT /usr/sbin/php5-fpm --nodaemonize
