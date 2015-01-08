@@ -1,0 +1,20 @@
+#!/bin/bash
+set -eu
+
+CONFIG=/etc/rds/rds.ini
+
+write_config () {
+
+    if [ -z "${VIVO_ENDPOINT}" ]; then
+        sed -i -e "s&vivo_endpoint.*&vivo_endpoint = ${VIVO_ENDPOINT}& ${CONFIG}"
+    fi
+
+    if [ -z "${VIVO_URL_PREFIX}" ]; then
+        sed -i -e "s&vivo_endpoint.*&vivo_endpoint = ${VIVO_URL_PREFIX}& ${CONFIG}"
+    fi
+}
+
+# If we don't already have a config file, bootstrap
+if [ ! -e "$CONFIG" ]; then
+    write_config
+fi
