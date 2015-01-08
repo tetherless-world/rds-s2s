@@ -31,9 +31,9 @@ RUN sed -e 's/127.0.0.1:9000/9000/' \
 # VIVO_ENDPOINT?
 # VIVO_URL_PREFIX
 
-RUN sed -e 's//' \
-        -e '' \
-        -i /etc/rds/opensearch.ini
+#RUN sed -e 's//' \
+#        -e '' \
+#        -i /etc/rds/opensearch.ini
 
 EXPOSE 9000
 
