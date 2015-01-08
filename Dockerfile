@@ -9,16 +9,18 @@ RUN apt-get install -y php5 php-apc php5-fpm
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+RUN git submodule init && git submodule update
+
 ENV WWW_DATA /var/www/html
-RUN mkdir -p ${WWW_DATA}
+RUN mkdir -p ${WWW_DATA}/rds
 
 ADD s2s/opensearch/config.php ${WWW_DATA}/rds/config.php
 ADD s2s/opensearch/utils.php ${WWW_DATA}/rds/utils.php
-ADD opensearch.xml ${WWW_DATA}/rds/opensearch.xml
 
 RUN mkdir -p /etc/rds
 ADD opensearch.ini /etc/rds/opensearch.ini
 
+ADD opensearch.xml ${WWW_DATA}/rds/opensearch.xml
 ADD rds.php ${WWW_DATA}/rds/rds.php
 ADD rds.ttl ${WWW_DATA}/rds/rds.ttl
 
