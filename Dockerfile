@@ -38,4 +38,4 @@ RUN sed -e 's/^listen.*/listen = 9000/' \
 
 EXPOSE 9000
 
-ENTRYPOINT /usr/sbin/php5-fpm --nodaemonize
+ENTRYPOINT [ "/usr/sbin/php5-fpm", "--nodaemonize" ]
