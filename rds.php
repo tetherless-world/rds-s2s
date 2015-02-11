@@ -272,7 +272,7 @@ class RDS_S2SConfig extends S2SConfig
 				break;
 				
 			case "count":
-				$body .= "?dataset a dcat:Dataset . ";
+				$body .= "?dataset a dcat:Dataset . ?dataset rdfs:label ?label .";
 				break;
 				
 			case "datasets":
