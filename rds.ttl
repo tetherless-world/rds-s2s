@@ -62,6 +62,17 @@
     s2s:hasOutput core:LabelIdContextCountJsonArray ;
     a s2s:InputValuesInterface, owl:Thing .
 
+:LeadResearchers
+    core:hasDelimiter ";"^^xsd:string ;
+    a s2s:Input owl:Thing ;
+    rdfs:comment "A search parameter for data related to any selected lead researchers"^^xsd:string ;
+    rdfs:label "Lead Researchers"^^xsd:string .
+
+:LeadResearchersQuery
+    s2s:forInput :LeadResearchers ;
+    s2s:hasOutput core:LabelIdContextCountJsonArray ;
+    a s2s:InputValuesInterface, owl:Thing .
+
 #:Organizations
 #    core:hasDelimiter ";"^^xsd:string ;
 #    a s2s:Input, owl:Thing ;

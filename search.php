@@ -4,6 +4,7 @@ include_once("rds.php");
 
 $authors = null;
 $contributors = null;
+$leadResearchers = null;
 $keywords = null;
 $catalogs = null;
 $type = null;
@@ -31,6 +32,11 @@ if (@$_GET['keywords'] && @$_GET['keywords'] != '') {
 if (@$_GET['catalogs'] && @$_GET['catalogs'] != '') {
     $catalogs = explode(";", $_GET['catalogs']);
     $constraints["catalogs"] = $catalogs;
+}
+
+if (@$_GET['leadResearchers'] && @$_GET['leadResearchers'] != '') {
+    $leadResearchers = explode(";", $_GET['leadResearchers']);
+    $constraints["leadResearchers"] = $leadResearchers;
 }
 
 if (@$_GET['limit'] && @$_GET['limit'] != '') {

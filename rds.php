@@ -22,7 +22,8 @@ class RDS_S2SConfig extends S2SConfig
 		'dct'	=> "http://purl.org/dc/terms/",
 		'dc'	=> "http://purl.org/dc/elements/1.1/",
 		'obo'	=> "http://purl.obolibrary.org/obo/",
-		'dcat'	=> "http://www.w3.org/ns/dcat#"
+		'dcat'	=> "http://www.w3.org/ns/dcat#",
+        'rds'   => "http://purl.org/twc/ns/rds#"
 	);
 
 	// TODO change to get ENDPOINT FROM ENV_VARIABLE
@@ -45,7 +46,8 @@ class RDS_S2SConfig extends S2SConfig
 		$encoded_query = 'query=' . urlencode($query) . '&resultFormat=RS_XML';
 		return execSelect($this->getEndpoint(), $encoded_query, $options);
 	}
-	
+
+    /*
 	private function getAuthorsByDataset($dataset) {
 				
 		$query = $this->getPrefixes();
@@ -60,6 +62,7 @@ class RDS_S2SConfig extends S2SConfig
 				
 		return $this->sparqlSelect($query);
 	}
+    */
 	
 	private function getContributorsByDataset($dataset) {
 	
@@ -73,6 +76,19 @@ class RDS_S2SConfig extends S2SConfig
 				
 		return $this->sparqlSelect($query);
 	}
+
+    private function getLeadResearcherByDataset($dataset) {
+
+        $query = $this->getPrefixes();
+        $query .= "SELECT DISTINCT ?uri ?name WHERE { ";
+        $query .= "<$dataset> rds:leadResearcher ?leadResearcher . ";
+        $query .= "?leadResearcher a foaf:Agent . ";
+        $query .= "?leadResearcher rdfs:label ?l . ";
+        $query .= "BIND(str(?leadResearcher) AS ?uri ) . ";
+        $query .= "BIND(str(?l) AS ?name) } ";
+
+        return $this->sparqlSelect($query);
+    }
 	
 	private function getCatalogsByDataset($dataset) {
 		
@@ -105,7 +121,63 @@ class RDS_S2SConfig extends S2SConfig
 		$result = $results[0];
 		return $result['count'];
 	}
-	
+
+    private function updateArrayOfHrefs(array &$markup, $uri, $label) {
+        $leadResearcher_vivo_url = $this->VIVO_URL_PREFIX . "?uri=" . urlencode($uri);
+        array_push($markup, "<a target='_blank_' href=\"" . $leadResearcher_vivo_url . "\">" . $label . "</a>");
+    }
+
+    private function createSimpleSpan($label, $value) {
+        if(isset($value) && isset($label)) {
+            return "<br /><span>" . $label . ": " . $value . "</span>";
+        } else {
+            return "";
+        }
+    }
+
+    private function createLinkedSpan($label, $uri, $value) {
+
+        if(isset($value) && isset($uri)) {
+            return "<br /><span>" . $label . ": <a target='_blank_' href=\"" . $uri . "\">" . $value . "</a></span>";
+        } else {
+            return "";
+        }
+    }
+
+    private function createSpanWithListOfHrefs(array $list, $label, $uri_key, $label_key) {
+
+        if (count($list) > 0) {
+            $html = "";
+            $html .= "<br /><span>" . $label . ": ";
+            $markup = array();
+            foreach ($list as $i => $item) {
+                $this->updateArrayOfHrefs($markup, $item[$uri_key], $item[$label_key]);
+            }
+            $html .= implode('; ', $markup);
+            $html .= "</span>";
+            return $html;
+        } else {
+            return "";
+        }
+    }
+
+    private function createSpanWithSimpleList(array $list, $label, $label_key) {
+
+        if(count($list) > 0) {
+            $html = "";
+            $html .= "<br /><span>". $label .": ";
+            $markup = array();
+            foreach ($list as $i => $item) {
+                array_push($markup, $item[$label_key]);
+            }
+            $html .= implode('; ', $markup);
+            $html .= "</span>";
+            return $html;
+        } else {
+            return "";
+        }
+    }
+
 	// override	
 	public function getSearchResultOutput(array $result) {
 							
@@ -121,79 +193,32 @@ class RDS_S2SConfig extends S2SConfig
 			$description = $result['description'];
 			$summary_end = strpos($description, '.') + 1;
 			$description_summary = substr($description, 0, $summary_end);
-			$html .= "<br /><span>Description: " . $description_summary . "</span>";
+            $html .= $this->createSimpleSpan("Description", $description_summary);
 		}
 
 		// handle
-		if(isset($result['id'])) {
-			$html .= "<br /><span>Handle: " . $result['id'] . "</span>";
-		}
+        $html .= $this->createSimpleSpan("Handle", $result['id']);
 	
-		// year issued
-		if(isset($result['issued'])) {
-			$html .= "<br /><span>Date Issued: " . $result['issued'] . "</span>";
-		}
-				
-		// authors
-		$authors = $this->getAuthorsByDataset($dataset);
-									
-		if (count($authors) > 0) {
-			$html .= "<br /><span>Authors: ";
-			$authors_markup = array();
-			foreach ($authors as $i => $author) {
-				$author_vivo_url = $this->VIVO_URL_PREFIX . "?uri=" . urlencode($author['uri']);
-				array_push($authors_markup, "<a target='_blank_' href=\"" . $author_vivo_url . "\">" . $author['name'] . "</a>");
-			}
-			$html .= implode('; ', $authors_markup);
-			$html .= "</span>";
-		}
+		// date issued
+        $html .= $this->createSimpleSpan("Date Issued", $result['issued']);
+
+        $leadResearchers = $this->getLeadResearcherByDataset($dataset);
+        $html .= $this->createSpanWithListOfHrefs($leadResearchers, "Lead Researcher", 'uri', 'name');
 		
 		// contributors
 		$contributors = $this->getContributorsByDataset($dataset);
-					
-		if (count($contributors) > 0) {
-			$html .= "<br /><span>Contributors: ";
-			$contributors_markup = array();
-			foreach ($contributors as $i => $contributor) {
-				$contributor_vivo_url = $this->VIVO_URL_PREFIX . "?uri=" . urlencode($contributor['uri']);
-				array_push($contributors_markup, "<a target='_blank_' href=\"" . $contributor_vivo_url . "\">" . $contributor['name'] . "</a>");
-			}
-			if (substr($html, -1) == ">") $html .= "; ";
-			$html .= implode('; ', $contributors_markup);
-			$html .= "</span>";
-		}
+        $html .= $this->createSpanWithListOfHrefs($contributors, "Contributors", 'uri', 'name');
 		
 		// dataset catalogs
 		$catalogs = $this->getCatalogsByDataset($dataset);
-					
-		if(count($catalogs) > 0) {
-			$html .= "<br /><span>Catalogs: ";
-			$catalogs_markup = array();
-			foreach ($catalogs as $i => $catalog) {
-				$catalog_vivo_url = $this->VIVO_URL_PREFIX . "?uri=" . urlencode($catalog['uri']);
-				array_push($catalogs_markup, "<a target='_blank_' href=\"" . $catalog_vivo_url . "\">" . $catalog['name'] . "</a>");
-			}
-			$html .= implode('; ', $catalogs_markup);
-			$html .= "</span>";
-		}
-		
+        $html .= $this->createSpanWithListOfHrefs($catalogs, "Catalogs", 'uri', 'name');
+
 		// keywords
 		$keywords = $this->getKeywordsByDataset($dataset);
-					
-		if(count($keywords) > 0) {
-			$html .= "<br /><span>Keywords: ";
-			$keywords_markup = array();
-			foreach ($keywords as $i => $keyword) {
-				array_push($keywords_markup, $keyword['keyword']);
-			}
-			$html .= implode('; ', $keywords_markup);
-			$html .= "</span>";
-		}
+		$html .= $this->createSpanWithSimpleList($keywords, "Keywords", 'keyword');
 		
-		// landing pages
-		if(isset($result['landingPage'])) {
-			$html .= "<br /><span>Landing Page: <a target='_blank_' href=\"" . $result['landingPage'] . "\">" . $result['landingPage'] . "</a></span>";
-		}
+		// landing page
+        $html .= $this->createLinkedSpan("", $result['landingPage'], $result['landingPage']);
 	
 		$html .= "</div>";				
 		return $html;
@@ -236,16 +261,6 @@ class RDS_S2SConfig extends S2SConfig
 		
 		$body = "";
 		switch($type) {
-			case "authors":
-				$body .= "?dataset a dcat:Dataset . ";
-				$body .= "?authorship vivo:relates ?dataset . ";
-				$body .= "?authorship a vivo:Authorship . ";
-				$body .= "?authorship vivo:relates ?author . ";
-				$body .= "?author a foaf:Agent . ";
-				$body .= "?author rdfs:label ?l . ";
-				$body .= "BIND(str(?author) AS ?id ) . ";
-				$body .= "BIND(str(?l) AS ?label) . ";
-				break;
 				
 			case "contributors":
 				$body .= "?dataset a dcat:Dataset . ";
@@ -255,7 +270,16 @@ class RDS_S2SConfig extends S2SConfig
 				$body .= "BIND(str(?agent) AS ?id) . ";
 				$body .= "BIND(str(?l) AS ?label) . ";
 				break;
-				
+
+            case "leadResearchers":
+                $body .= "?dataset a dcat:Dataset . ";
+                $body .= "?dataset rds:leadResearcher ?leadResearcher . ";
+                $body .= "?leadResearcher a foaf:Agent . ";
+                $body .= "?leadResearcher rdfs:label ?l . ";
+                $body .= "BIND(str(?leadResearcher) AS ?id) . ";
+                $body .= "BIND(str(?l) AS ?label) . ";
+                break;
+
 			case "catalogs":
 				$body .= "?dataset a dcat:Dataset . ";
 				$body .= "?catalog dcat:dataset ?dataset . ";
@@ -295,9 +319,6 @@ class RDS_S2SConfig extends S2SConfig
 		
 		$body = "";
 		switch($constraint_type) {
-			case "authors":
-				$body .= "{ ?authorship vivo:relates ?dataset . ?authorship vivo:relates <$constraint_value> . ?authorship a vivo:Authorship }";
-				break;
 			case "catalogs":
 				$body .= "{ <$constraint_value> dcat:dataset ?dataset }";
 				break;
@@ -307,6 +328,9 @@ class RDS_S2SConfig extends S2SConfig
 			case "keywords":
 				$body .= "{ ?dataset vivo:freetextKeyword \"$constraint_value\"^^xsd:string } UNION { ?dataset vivo:freetextKeyword \"$constraint_value\" }";
 				break;
+            case "leadResearchers":
+                $body .= "{ ?dataset rds:leadResearcher <$constraint_value> }";
+                break;
 			default:
 				break;
 		}
@@ -315,7 +339,7 @@ class RDS_S2SConfig extends S2SConfig
 	
 	private function addContextLinks(&$results, $type) {
 		
-		if ($type == 'authors' || $type == 'contributors' || $type == 'catalogs') {
+		if ($type == 'contributors' || $type == 'catalogs' || $type == 'leadResearchers') {
 			foreach ( $results as $i => $result ) {
 				$results[$i]['context'] = $this->VIVO_URL_PREFIX . "?uri=" . urlencode($result['id']); 
 			}
