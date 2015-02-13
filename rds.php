@@ -23,7 +23,8 @@ class RDS_S2SConfig extends S2SConfig
 		'dc'	=> "http://purl.org/dc/elements/1.1/",
 		'obo'	=> "http://purl.obolibrary.org/obo/",
 		'dcat'	=> "http://www.w3.org/ns/dcat#",
-        'rds'   => "http://purl.org/twc/ns/rds#"
+        'rds'   => "http://purl.org/twc/ns/rds#",
+        'fn'    => "http://jena.hpl.hp.com/ARQ/function#"
 	);
 
 	// TODO change to get ENDPOINT FROM ENV_VARIABLE
@@ -102,13 +103,15 @@ class RDS_S2SConfig extends S2SConfig
 		
 		return $this->sparqlSelect($query);
 	}
-	
+
+    // fn:lower-case(string)
+
 	private function getKeywordsByDataset($dataset) {
 	
 		$query = $this->getPrefixes();
 		$query .= "SELECT DISTINCT ?keyword WHERE { ";
 		$query .= "<$dataset> vivo:freetextKeyword ?k . ";
-		$query .= "BIND(str(?k) AS ?keyword) } ";
+		$query .= "BIND(fn:lower-case(str(?k)) AS ?keyword) } ";
 		
 		return $this->sparqlSelect($query);
 	}
@@ -351,7 +354,17 @@ class RDS_S2SConfig extends S2SConfig
 		if($type == "datasets") {
 			$count = $this->getSearchResultCount($constraints);						
 			return $this->getSearchResultsOutput($results, $limit, $offset, $count);
-		} else {		
+		} elseif($type == "keywords") {
+
+            foreach ($results as $i => $result ) {
+                $results[$i]['keyword'] = strtolower($result['keyword']);
+                $results[$i]['id'] = strtolower($result['id']);
+            }
+            usort($array, function($a, $b){ return strcmp($a["keyword"], $b["keyword"]); });
+
+            $this->addContextLinks($results, $type);
+            return $this->getFacetOutput($results);
+        } else {
 			$this->addContextLinks($results, $type);
 			return $this->getFacetOutput($results);
 		}

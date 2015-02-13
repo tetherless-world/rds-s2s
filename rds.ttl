@@ -23,11 +23,11 @@
     rdfs:label "Rensselear Data Services Dataset Search Service"^^xsd:string ;
     rdfs:seeAlso "http://data.tw.rpi.edu/rds-vivo/"^^xsd:anyURI .
 
-#:SearchTerms
-#    core:hasDelimiter ";"^^xsd:string ;
-#    a s2s:Input, owl:Thing ;
-#    rdfs:comment "A search parameter for free-text keyword search."^^xsd:string ;
-#    rdfs:label "Search Terms (Title or Abstract)"^^xsd:string .
+:SearchTerms
+    core:hasDelimiter ";"^^xsd:string ;
+    a s2s:Input, owl:Thing ;
+    rdfs:comment "A search parameter for free-text keyword search."^^xsd:string ;
+    rdfs:label "Search Terms (Title or Description)"^^xsd:string .
 
 :Years
     core:hasDelimiter ";"^^xsd:string ;
@@ -64,7 +64,7 @@
 
 :LeadResearchers
     core:hasDelimiter ";"^^xsd:string ;
-    a s2s:Input owl:Thing ;
+    a s2s:Input, owl:Thing ;
     rdfs:comment "A search parameter for data related to any selected lead researchers"^^xsd:string ;
     rdfs:label "Lead Researchers"^^xsd:string .
 
@@ -142,6 +142,28 @@
     rdfs:comment "A s2s:ResultsWidget for results lists that accepts XHTML content."^^xsd:string ;
     rdfs:label "Results List Widget"^^xsd:string ;
     owl:versionInfo "1.0"^^xsd:string .
+
+:ContextSelect
+    a core:JavaScriptWidget, s2s:InputWidget ;
+    rdfs:label "Context Select" ;
+    rdfs:comment "A s2s:InputWidget that creates a list of checkboxes with links to information about the items." ;
+    core:hasJavaScriptPrototype "edu.rpi.tw.sesf.s2s.widgets.ContextSelect"^^xsd:string ;
+    core:requiresJavaScript "http://data.tw.rpi.edu/rds/scripts/widgets/ContextSelect.js"^^xsd:anyURI ;
+    s2s:supportsOutput
+        core:LabelIdContextCountJsonArray,
+        core:LabelIdContextCountParentJsonArray,
+        core:LabelIdContextJsonArray,
+        core:LabelIdContextParentJsonArray ;
+    .
+
+:GenericWidget
+	a :JavaScriptWidget, s2s:InputWidget ;
+	rdfs:comment "A generic s2s:InputWidget that supports any s2s:Input."^^xsd:string ;
+	rdfs:label "Generic Widget"^^xsd:string ;
+	owl:versionInfo "4.0"^^xsd:string ;
+	core:hasJavaScriptPrototype "edu.rpi.tw.sesf.s2s.widgets.GenericWidget"^^xsd:string ;
+	core:requiresJavaScript "http://data.tw.rpi.edu/rds/scripts/widgets/GenericWidget.js"^^xsd:anyURI ;
+	.
 
 :DescendingContextSelect
     core:hasJavaScriptPrototype "edu.rpi.tw.sesf.s2s.widgets.DescendingContextSelect"^^xsd:string ;
