@@ -6,7 +6,7 @@ include_once "config.php";
 class RDS_S2SConfig extends S2SConfig
 {
 	// TODO CHANGE TO GET VIVO_URL_PREFIX FROM ENV_VARIABLE
-	public $VIVO_URL_PREFIX = "http://data.tw.rpi.edu/rds-vivo/individual";
+	public $VIVO_URL_PREFIX = "http://data.tw.rpi.edu/info/individual";
 
 	// TODO GET namespaces array from config file
 	private $namespaces = array(
