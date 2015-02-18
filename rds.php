@@ -358,7 +358,6 @@ class RDS_S2SConfig extends S2SConfig
 
             foreach ($results as $i => $result ) {
                 $results[$i]['keyword'] = strtolower($result['keyword']);
-                $results[$i]['id'] = strtolower($result['id']);
             }
             usort($array, function($a, $b){ return strcmp($a["keyword"], $b["keyword"]); });
 
