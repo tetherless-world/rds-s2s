@@ -29,7 +29,7 @@ class RDS_S2SConfig extends S2SConfig
 
 	// TODO change to get ENDPOINT FROM ENV_VARIABLE
 	public function getEndpoint() {
-		return "http://data.tw.rpi.edu/info/admin/sparqlquery";
+		return "http://data.tw.rpi.edu:13030/vivo";
 	}
 
 	public function getNamespaces() {
@@ -47,23 +47,6 @@ class RDS_S2SConfig extends S2SConfig
 		$encoded_query = 'query=' . urlencode($query) . '&resultFormat=RS_XML';
 		return execSelect($this->getEndpoint(), $encoded_query, $options);
 	}
-
-    /*
-	private function getAuthorsByDataset($dataset) {
-				
-		$query = $this->getPrefixes();
-		$query .= "SELECT DISTINCT ?uri ?name WHERE { ";
-		$query .= "?authorship vivo:relates <$dataset> . ";
-		$query .= "?authorship a vivo:Authorship . ";
-		$query .= "?authorship vivo:relates ?author . ";
-		$query .= "?author a foaf:Agent . ";
-		$query .= "?author rdfs:label ?l . ";
-		$query .= "BIND(str(?author) AS ?uri ) . ";
-		$query .= "BIND(str(?l) AS ?name) } ";
-				
-		return $this->sparqlSelect($query);
-	}
-    */
 	
 	private function getContributorsByDataset($dataset) {
 	
