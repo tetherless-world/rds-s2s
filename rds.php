@@ -29,7 +29,7 @@ class RDS_S2SConfig extends S2SConfig
 
 	// TODO change to get ENDPOINT FROM ENV_VARIABLE
 	public function getEndpoint() {
-		return "http://data.tw.rpi.edu:13030/vivo";
+		return "http://data.tw.rpi.edu:13030/vivo/query";
 	}
 
 	public function getNamespaces() {

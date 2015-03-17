@@ -2,6 +2,9 @@ FROM php:5.6-apache
 MAINTAINER Stephan Zednik "zednis2@rpi.edu"
 ENV REFRESHED_AT 2015-03-15
 
+RUN pear channel-discover pear.apache.org/log4php && \
+    pear install log4php/Apache_log4php
+
 ENV WWW_DATA /var/www/html
 
 WORKDIR ${WWW_DATA}
@@ -15,6 +18,8 @@ ADD rds.ttl ${WWW_DATA}/search/rds.ttl
 ADD opensearch.xml ${WWW_DATA}/search/opensearch.xml
 ADD search.php ${WWW_DATA}/search/search.php
 COPY s2s/opensearch/ ${WWW_DATA}/search/
+
+VOLUME /var/www/html
 
 RUN mkdir -p /etc/rds
 ADD rds.ini /etc/rds/rds.ini
