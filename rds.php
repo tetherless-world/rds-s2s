@@ -27,7 +27,6 @@ class RDS_S2SConfig extends S2SConfig
         'fn'    => "http://jena.hpl.hp.com/ARQ/function#"
 	);
 
-	// TODO change to get ENDPOINT FROM ENV_VARIABLE
 	public function getEndpoint() {
 		return "http://fuseki:3030/vivo/query";
 	}
