@@ -3,7 +3,8 @@ MAINTAINER Stephan Zednik "zednis2@rpi.edu"
 ENV REFRESHED_AT 2015-03-15
 
 RUN pear channel-discover pear.apache.org/log4php && \
-    pear install log4php/Apache_log4php
+    pear install log4php/Apache_log4php && \
+    docker-php-ext-install log4php
 
 ENV WWW_DATA /var/www/html
 
@@ -21,14 +22,5 @@ COPY s2s/opensearch/ ${WWW_DATA}/search/
 
 VOLUME /var/www/html
 
-RUN mkdir -p /etc/rds
-ADD rds.ini /etc/rds/rds.ini
-
-#RUN sed -e 's/^listen.*/listen = 9000/' \
-#        -e '/allowed_clients/d' \
-#        -e '/catch_workers_output/s/^;//' \
-#        -e '/error_log/d' \
-#        -i /etc/php5/fpm/pool.d/www.conf
-
-#EXPOSE 9000
-#ENTRYPOINT [ "/usr/sbin/php5-fpm", "--nodaemonize" ]
+#RUN mkdir -p /etc/rds
+#ADD rds.ini /etc/rds/rds.ini
