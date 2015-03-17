@@ -29,7 +29,7 @@ class RDS_S2SConfig extends S2SConfig
 
 	// TODO change to get ENDPOINT FROM ENV_VARIABLE
 	public function getEndpoint() {
-		return "http://data.tw.rpi.edu:13030/vivo/query";
+		return "http://fuseki:3030/vivo/query";
 	}
 
 	public function getNamespaces() {
@@ -43,8 +43,8 @@ class RDS_S2SConfig extends S2SConfig
             CURLOPT_FOLLOWLOCATION => true,
 			CURLOPT_TIMEOUT => 60
 		);
-				
-		$encoded_query = 'query=' . urlencode($query) . '&resultFormat=RS_XML';
+
+        $encoded_query = 'query=' . urlencode($query) . '&output=xml';
 		return execSelect($this->getEndpoint(), $encoded_query, $options);
 	}
 	
