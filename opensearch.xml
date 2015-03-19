@@ -2,18 +2,17 @@
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"
                        xmlns:geo="http://a9.com/-/opensearch/extensions/geo/1.0/"
                        xmlns:time="http://a9.com/-/opensearch/extensions/time/1.0/"
-                       xmlns:rds="http://data.tw.rpi.edu/browser/rds.ttl#"
+                       xmlns:rds="http://data.tw.rpi.edu/search/rds.ttl#"
                        xmlns:core="http://escience.rpi.edu/ontology/sesf/s2s-core/4/0/">
 
     <ShortName>Rensselear Data Services Dataset Search Service</ShortName>
     <Description>Rensselear Data Services Dataset Search Service</Description>
     <Tags>rds</Tags>
     <Contact>Stephan Zednik</Contact>
-    <Url type="application/json" rel="rds:YearsQuery" template="http://data.tw.rpi.edu/search/search.php?request=years&amp;terms={rds:SearchTerms?}&amp;authors={rds:Authors?}&amp;contributors={rds:Contributors?}&amp;keywords={rds:Keywords?}" />
-    <Url type="application/json" rel="rds:ContributorsQuery" template="http://data.tw.rpi.edu/search/search.php?request=contributors&amp;terms={rds:SearchTerms?}&amp;authors={rds:Authors?}&amp;years={rds:Years?}&amp;keywords={rds:Keywords?}" />
-    <Url type="application/json" rel="rds:KeywordsQuery" template="http://data.tw.rpi.edu/search/search.php?request=keywords&amp;terms={rds:SearchTerms?}&amp;contributors={rds:Contributors?}&amp;authors={rds:Authors?}&amp;years={rds:Years?}" />
-    <Url type="application/json" rel="rds:LeadResearchersQuery" template="http://data.tw.rpi.edu/search/search.php?request=leadResearchers&amp;terms={rds:SearchTerms?}&amp;contributors={rds:Contributors?}&amp;authors={rds:Authors?}&amp;years={rds:Years?}" />
-    <Url type="text/html" rel="core:ResultsListQuery" template="http://data.tw.rpi.edu/search/search.php?request=datasets&amp;terms={rds:SearchTerms?}&amp;authors={rds:Authors?}&amp;contributors={rds:Contributors?}&amp;keywords={rds:Keywords?}&amp;years={rds:Years?}&amp;limit={count}&amp;offset={startIndex}" />
+    <Url type="application/json" rel="rds:LeadResearchersQuery" template="http://data.tw.rpi.edu/search/search.php?request=leadResearchers&amp;terms={rds:SearchTerms?}&amp;contributors={rds:Contributors?}&amp;keywords={rds:Keywords?}" />
+    <Url type="application/json" rel="rds:ContributorsQuery" template="http://data.tw.rpi.edu/search/search.php?request=contributors&amp;terms={rds:SearchTerms?}&amp;keywords={rds:Keywords?}&amp;leadResearchers={rds:LeadResearchers?}" />
+    <Url type="application/json" rel="rds:KeywordsQuery" template="http://data.tw.rpi.edu/search/search.php?request=keywords&amp;terms={rds:SearchTerms?}&amp;contributors={rds:Contributors?}&amp;leadResearchers={rds:LeadResearchers?}" />
+    <Url type="text/html" rel="core:ResultsListQuery" template="http://data.tw.rpi.edu/search/search.php?request=datasets&amp;terms={rds:SearchTerms?}&amp;contributors={rds:Contributors?}&amp;keywords={rds:Keywords?}&amp;limit={count}&amp;offset={startIndex}" />
     <LongName>Rensselear Data Services Search Service</LongName>
     <Developer>Stephan Zednik</Developer>
     <Attribution>Search data Copyright 2015, Rensselaer Data Services, All Rights Reserved</Attribution>
