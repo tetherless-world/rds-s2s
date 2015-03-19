@@ -341,7 +341,7 @@ class RDS_S2SConfig extends S2SConfig
             foreach ($results as $i => $result ) {
                 $results[$i]['keyword'] = strtolower($result['keyword']);
             }
-            usort($array, function($a, $b){ return strcmp($a["keyword"], $b["keyword"]); });
+            usort($results, function($a, $b){ return strcmp($a["keyword"], $b["keyword"]); });
 
             $this->addContextLinks($results, $type);
             return $this->getFacetOutput($results);
