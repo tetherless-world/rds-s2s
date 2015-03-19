@@ -10,7 +10,7 @@
 <http://data.tw.rpi.edu/search/rds.ttl>
     dc:creator "Stephan Zednik"^^xsd:string ;
     a owl:Ontology ;
-    rdfs:comment "An ontology describing the metadata for the Rensselear Data Services S2S search services."^^xsd:string ;
+    rdfs:comment "An ontology describing the metadata for the Rensselear Data Services S2S dataset search services."^^xsd:string ;
     owl:imports <http://escience.rpi.edu/ontology/sesf/s2s-core/4/0/> ;
     owl:versionInfo "1.0"^^xsd:string .
 
@@ -38,16 +38,16 @@
     s2s:hasOutput core:LabelIdContextCountJsonArray ;
     a s2s:InputValuesInterface, owl:Thing .
                   
-:Authors
-    core:hasDelimiter ";"^^xsd:string ;
-    a s2s:Input, owl:Thing ;
-    rdfs:comment "A search parameter for data related to any selected authors."^^xsd:string ;
-    rdfs:label "Authors"^^xsd:string .
+#:Authors
+#    core:hasDelimiter ";"^^xsd:string ;
+#    a s2s:Input, owl:Thing ;
+#    rdfs:comment "A search parameter for data related to any selected authors."^^xsd:string ;
+#    rdfs:label "Authors"^^xsd:string .
 
-:AuthorsQuery
-    s2s:forInput :Authors ;
-    s2s:hasOutput core:LabelIdContextCountJsonArray ;
-    a s2s:InputValuesInterface, owl:Thing .
+#:AuthorsQuery
+#    s2s:forInput :Authors ;
+#    s2s:hasOutput core:LabelIdContextCountJsonArray ;
+#    a s2s:InputValuesInterface, owl:Thing .
 
 :Contributors
     core:hasDelimiter ";"^^xsd:string ;
