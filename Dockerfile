@@ -7,18 +7,26 @@ RUN pear channel-discover pear.apache.org/log4php && \
     docker-php-ext-install log4php
 
 ENV WWW_DATA /var/www/html
+ENV SERVICE_HOME ${WWW_DATA}/search
 
-WORKDIR ${WWW_DATA}
-
-RUN mkdir -p ${WORKDIR}/search
+RUN mkdir -p ${WWW_DATA}/search
 
 #COPY config/php.ini /usr/local/etc/php
 
-ADD rds.php ${WWW_DATA}/search/rds.php
-ADD rds.ttl ${WWW_DATA}/search/rds.ttl
-ADD opensearch.xml ${WWW_DATA}/search/opensearch.xml
-ADD search.php ${WWW_DATA}/search/search.php
-COPY s2s/opensearch/ ${WWW_DATA}/search/
+ADD rds.php ${SERVICE_HOME}/rds.php
+ADD rds.ttl ${SERVICE_HOME}/rds.ttl
+ADD opensearch.xml ${SERVICE_HOME}/opensearch.xml
+ADD search.php ${SERVICE_HOME}/search.php
+ADD index.html ${SERVICE_HOME}/index.html
+
+COPY s2s/opensearch/ ${SERVICE_HOME}/
+#COPY s2s/rdf/ ${SERVICE_HOME}/rdf/
+COPY s2s/client/ ${SERVICE_HOME}/client/
+COPY js/ ${SERVICE_HOME}/js/
+
+#TODO update RDF URIs with sed
+
+RUN sed -i -e "" "${}"
 
 VOLUME /var/www/html
 

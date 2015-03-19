@@ -1,13 +1,11 @@
 @prefix :        <http://data.tw.rpi.edu/search/rds.ttl#> .
 @prefix dc:      <http://purl.org/dc/elements/1.1/> .
-@prefix s2s:     <http://escience.rpi.edu/ontology/sesf/s2s/4/0/> .
 @prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix owl2xml: <http://www.w3.org/2006/12/owl2-xml#> .
 @prefix owl:     <http://www.w3.org/2002/07/owl#> .
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix s2s:     <http://escience.rpi.edu/ontology/sesf/s2s/4/0/> .
 @prefix core:    <http://escience.rpi.edu/ontology/sesf/s2s-core/4/0/> .
-#@prefix facet:   <http://danielsmith.eu/resources/facet/#> .
 
 <http://data.tw.rpi.edu/search/rds.ttl>
     dc:creator "Stephan Zednik"^^xsd:string ;
@@ -136,7 +134,7 @@
 
 :ResultsListWidget
     core:hasJavaScriptPrototype "edu.rpi.tw.sesf.s2s.widgets.ResultsListWidget"^^xsd:string ;
-    core:requiresJavaScript "http://data.tw.rpi.edu/browser/scripts/widgets/ResultsListWidget.js"^^xsd:anyURI ;
+    core:requiresJavaScript "http://data.tw.rpi.edu/search/scripts/widgets/ResultsListWidget.js"^^xsd:anyURI ;
     s2s:supportsOutput core:TextHtml ;
     a s2s:ResultsWidget ;
     rdfs:comment "A s2s:ResultsWidget for results lists that accepts XHTML content."^^xsd:string ;
@@ -148,7 +146,7 @@
     rdfs:label "Context Select" ;
     rdfs:comment "A s2s:InputWidget that creates a list of checkboxes with links to information about the items." ;
     core:hasJavaScriptPrototype "edu.rpi.tw.sesf.s2s.widgets.ContextSelect"^^xsd:string ;
-    core:requiresJavaScript "http://data.tw.rpi.edu/browser/scripts/widgets/ContextSelect.js"^^xsd:anyURI ;
+    core:requiresJavaScript "http://data.tw.rpi.edu/search/scripts/widgets/ContextSelect.js"^^xsd:anyURI ;
     s2s:supportsOutput
         core:LabelIdContextCountJsonArray,
         core:LabelIdContextCountParentJsonArray,
@@ -162,12 +160,12 @@
 	rdfs:label "Generic Widget"^^xsd:string ;
 	owl:versionInfo "4.0"^^xsd:string ;
 	core:hasJavaScriptPrototype "edu.rpi.tw.sesf.s2s.widgets.GenericWidget"^^xsd:string ;
-	core:requiresJavaScript "http://data.tw.rpi.edu/browser/scripts/widgets/GenericWidget.js"^^xsd:anyURI ;
+	core:requiresJavaScript "http://data.tw.rpi.edu/search/scripts/widgets/GenericWidget.js"^^xsd:anyURI ;
 	.
 
 :DescendingContextSelect
     core:hasJavaScriptPrototype "edu.rpi.tw.sesf.s2s.widgets.DescendingContextSelect"^^xsd:string ;
-    core:requiresJavaScript "http://data.tw.rpi.edu/browser/scripts/widgets/DescendingContextSelect.js"^^xsd:anyURI ;
+    core:requiresJavaScript "http://data.tw.rpi.edu/search/scripts/widgets/DescendingContextSelect.js"^^xsd:anyURI ;
     s2s:supportsOutput core:LabelIdContextCountJsonArray, core:LabelIdContextCountParentJsonArray, core:LabelIdContextJsonArray, core:LabelIdContextParentJsonArray ;
     a core:JavaScriptWidget, s2s:InputWidget ;
     rdfs:comment "A s2s:InputWidget that creates a list of checkboxes with links to information about the items."^^xsd:string ;
