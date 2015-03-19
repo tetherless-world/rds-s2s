@@ -20,8 +20,7 @@ ADD search.php ${SERVICE_HOME}/search.php
 ADD index.html ${SERVICE_HOME}/index.html
 
 COPY s2s/opensearch/ ${SERVICE_HOME}/
-#COPY s2s/rdf/ ${SERVICE_HOME}/rdf/
-COPY s2s/client/ ${SERVICE_HOME}/client/
+COPY s2s/client/ ${SERVICE_HOME}/s2s/client/
 COPY js/ ${SERVICE_HOME}/js/
 
 #TODO update RDF URIs with sed
