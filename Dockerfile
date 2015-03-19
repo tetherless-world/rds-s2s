@@ -2,9 +2,9 @@ FROM php:5.6-apache
 MAINTAINER Stephan Zednik "zednis2@rpi.edu"
 ENV REFRESHED_AT 2015-03-15
 
-RUN pear channel-discover pear.apache.org/log4php && \
-    pear install log4php/Apache_log4php && \
-    docker-php-ext-install log4php
+#RUN pear channel-discover pear.apache.org/log4php && \
+#    pear install log4php/Apache_log4php && \
+#    docker-php-ext-install log4php
 
 ENV WWW_DATA /var/www/html
 ENV SERVICE_HOME ${WWW_DATA}/search
@@ -25,8 +25,6 @@ COPY s2s/client/ ${SERVICE_HOME}/client/
 COPY js/ ${SERVICE_HOME}/js/
 
 #TODO update RDF URIs with sed
-
-RUN sed -i -e "" "${}"
 
 VOLUME /var/www/html
 
