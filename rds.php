@@ -52,7 +52,7 @@ class RDS_S2SConfig extends S2SConfig
 		$query = $this->getPrefixes();
 		$query .= "SELECT DISTINCT ?uri ?name WHERE { ";
 		$query .= "<$dataset> dct:contributor ?contributor . ";
-		$query .= "?contributor a foaf:Agent . ";
+		$query .= "{ ?contributor a foaf:Agent } UNION { ?contributor a foaf:Person } . ";
 		$query .= "?contributor rdfs:label ?label . ";
 		$query .= "BIND(str(?contributor) AS ?uri) . ";
 		$query .= "BIND(str(?label) AS ?name) } ";
@@ -65,7 +65,7 @@ class RDS_S2SConfig extends S2SConfig
         $query = $this->getPrefixes();
         $query .= "SELECT DISTINCT ?uri ?name WHERE { ";
         $query .= "<$dataset> rds:leadResearcher ?leadResearcher . ";
-        $query .= "?leadResearcher a foaf:Agent . ";
+        $query .= "{ ?leadResearcher a foaf:Agent } UNION { ?leadResearcher a foaf:Person } . ";
         $query .= "?leadResearcher rdfs:label ?l . ";
         $query .= "BIND(str(?leadResearcher) AS ?uri ) . ";
         $query .= "BIND(str(?l) AS ?name) } ";
@@ -92,7 +92,7 @@ class RDS_S2SConfig extends S2SConfig
 	
 		$query = $this->getPrefixes();
 		$query .= "SELECT DISTINCT ?keyword WHERE { ";
-		$query .= "<$dataset> vivo:freetextKeyword ?k . ";
+		$query .= "<$dataset> dcat:keyword ?k . ";
 		$query .= "BIND(fn:lower-case(str(?k)) AS ?keyword) } ";
 		
 		return $this->sparqlSelect($query);
@@ -250,7 +250,7 @@ class RDS_S2SConfig extends S2SConfig
 			case "contributors":
 				$body .= "?dataset a dcat:Dataset . ";
 				$body .= "?dataset dct:contributor ?agent . ";
-				$body .= "?agent a foaf:Agent . ";
+				$body .= "{ ?agent a foaf:Agent } UNION { ?agent a foaf:Person } . ";
 				$body .= "?agent rdfs:label ?l . ";
 				$body .= "BIND(str(?agent) AS ?id) . ";
 				$body .= "BIND(str(?l) AS ?label) . ";
@@ -259,7 +259,7 @@ class RDS_S2SConfig extends S2SConfig
             case "leadResearchers":
                 $body .= "?dataset a dcat:Dataset . ";
                 $body .= "?dataset rds:leadResearcher ?leadResearcher . ";
-                $body .= "?leadResearcher a foaf:Agent . ";
+                $body .= "{ ?leadResearcher a foaf:Agent } UNION { ?leadResearcher a foaf:Person } . ";
                 $body .= "?leadResearcher rdfs:label ?l . ";
                 $body .= "BIND(str(?leadResearcher) AS ?id) . ";
                 $body .= "BIND(str(?l) AS ?label) . ";
@@ -276,7 +276,7 @@ class RDS_S2SConfig extends S2SConfig
 				
 			case "keywords":
 				$body .= "?dataset a dcat:Dataset . ";
-				$body .= "{ ?dataset vivo:freetextKeyword ?id } UNION { ?dataset dcat:keyword ?id } . ";
+				$body .= "{ ?dataset dcat:keyword ?id } UNION { ?dataset dcat:keyword ?id } . ";
 				$body .= "BIND(str(?id) AS ?label) . ";
 				break;
 				
@@ -311,7 +311,7 @@ class RDS_S2SConfig extends S2SConfig
 				$body .= "{ ?dataset dct:contributor <$constraint_value> }";
 				break;
 			case "keywords":
-				$body .= "{ ?dataset vivo:freetextKeyword \"$constraint_value\"^^xsd:string } UNION { ?dataset vivo:freetextKeyword \"$constraint_value\" }";
+				$body .= "{ ?dataset dcat:keyword \"$constraint_value\"^^xsd:string } UNION { ?dataset dcat:keyword \"$constraint_value\" } UNION { ?dataset dcat:keyword \"$constraint_value\"^^rdfs:Literal }";
 				break;
             case "leadResearchers":
                 $body .= "{ ?dataset rds:leadResearcher <$constraint_value> }";
