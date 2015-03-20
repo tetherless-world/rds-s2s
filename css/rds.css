@@ -15,6 +15,10 @@ a:link, a:visited {
     cursor: pointer;
 }
 
+.ui-accordion .ui-accordion-header {
+    background-image: linear-gradient(to bottom, #fafafb, #a8aab9);
+}
+
 .widget-panel {
     font-family: Verdana,Arial,sans-serif;
     font-size: 0.7em;
