@@ -12,7 +12,7 @@
     <Url type="application/json" rel="rds:LeadResearchersQuery" template="http://data.tw.rpi.edu/search/search.php?request=leadResearchers&amp;terms={rds:SearchTerms?}&amp;contributors={rds:Contributors?}&amp;keywords={rds:Keywords?}" />
     <Url type="application/json" rel="rds:ContributorsQuery" template="http://data.tw.rpi.edu/search/search.php?request=contributors&amp;terms={rds:SearchTerms?}&amp;keywords={rds:Keywords?}&amp;leadResearchers={rds:LeadResearchers?}" />
     <Url type="application/json" rel="rds:KeywordsQuery" template="http://data.tw.rpi.edu/search/search.php?request=keywords&amp;terms={rds:SearchTerms?}&amp;contributors={rds:Contributors?}&amp;leadResearchers={rds:LeadResearchers?}" />
-    <Url type="text/html" rel="core:ResultsListQuery" template="http://data.tw.rpi.edu/search/search.php?request=datasets&amp;terms={rds:SearchTerms?}&amp;contributors={rds:Contributors?}&amp;keywords={rds:Keywords?}&amp;limit={count}&amp;offset={startIndex}" />
+    <Url type="text/html" rel="core:ResultsListQuery" template="http://data.tw.rpi.edu/search/search.php?request=datasets&amp;terms={rds:SearchTerms?}&amp;contributors={rds:Contributors?}&amp;leadResearchers={rds:LeadResearchers?}&amp;keywords={rds:Keywords?}&amp;limit={count}&amp;offset={startIndex}" />
     <LongName>Rensselear Data Services Search Service</LongName>
     <Developer>Stephan Zednik</Developer>
     <Attribution>Search data Copyright 2015, Rensselaer Data Services, All Rights Reserved</Attribution>
