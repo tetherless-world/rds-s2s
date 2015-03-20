@@ -22,6 +22,7 @@ ADD index.html ${SERVICE_HOME}/index.html
 COPY s2s/opensearch/ ${SERVICE_HOME}/
 COPY s2s/client/ ${SERVICE_HOME}/s2s/client/
 COPY js/ ${SERVICE_HOME}/js/
+COPY css/ ${SERVICE_HOME}/css/
 
 #TODO update RDF URIs with sed
 
