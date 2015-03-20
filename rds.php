@@ -93,7 +93,8 @@ class RDS_S2SConfig extends S2SConfig
 		$query = $this->getPrefixes();
 		$query .= "SELECT DISTINCT ?keyword WHERE { ";
 		$query .= "<$dataset> dcat:keyword ?k . ";
-		$query .= "BIND(fn:lower-case(str(?k)) AS ?keyword) } ";
+		$query .= "BIND(str(?k) AS ?keyword) } ";
+		//$query .= "BIND(fn:lower-case(str(?k)) AS ?keyword) } ";
 		
 		return $this->sparqlSelect($query);
 	}
@@ -321,17 +322,19 @@ class RDS_S2SConfig extends S2SConfig
 		}
 		return $body;
 	}
-	
-	private function addContextLinks(&$results, $type) {
-		
-		if ($type == 'contributors' || $type == 'catalogs' || $type == 'leadResearchers') {
-			foreach ( $results as $i => $result ) {
-				$results[$i]['context'] = $this->VIVO_URL_PREFIX . "?uri=" . urlencode($result['id']); 
-			}
-		}
-	}
-	
-	public function getOutput(array $results, $type, array $constraints, $limit=0, $offset=0) {
+
+    private function addContextLinks(&$results, $type) {
+
+        if ($type == 'contributors' || $type == 'catalogs' || $type == 'leadResearchers') {
+            foreach ($results as $i => $result) {
+                if($result['count'] > 0) {
+                    $results[$i]['context'] = $this->VIVO_URL_PREFIX . "?uri=" . urlencode($result['id']);
+                }
+            }
+        }
+    }
+
+    public function getOutput(array $results, $type, array $constraints, $limit=0, $offset=0) {
 				
 		if($type == "datasets") {
 			$count = $this->getSearchResultCount($constraints);						
@@ -339,9 +342,9 @@ class RDS_S2SConfig extends S2SConfig
 		} elseif($type == "keywords") {
 
             foreach ($results as $i => $result ) {
-                $results[$i]['keyword'] = strtolower($result['keyword']);
+                $results[$i]['label'] = strtolower($result['label']);
             }
-            usort($results, function($a, $b){ return strcmp($a["keyword"], $b["keyword"]); });
+            usort($results, function($a, $b){ return strcmp($a["label"], $b["label"]); });
 
             $this->addContextLinks($results, $type);
             return $this->getFacetOutput($results);
